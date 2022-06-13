@@ -1,5 +1,5 @@
 
-[pull request](https://github.com/aliwalid96/madlib-cli/pull/1)
+[pull request](https://github.com/aliwalid96/madlib-cli/pull/2)
 
 completed 
 
