@@ -1,36 +1,51 @@
+import re
 
-
-def welcoming():
-    print("you are wlcome in the madlib")
-welcoming()
-
-def prompting():
-   adjective= input("please enter the  Adjective ")
-   adjective_2=input("please enter the  Adjective  ")
-   a_first_name=input("please enter the first name   ")
-   past_tense_verb=input("please enter Past Tense Verb   ")
-   another_a_first_name=input("please enter the first name   ")
-   adjective_3=input("please enter the  Adjective ")
-   adjective_4=input("please enter the  Adjective ")
-   plural_noun=input("please enter a plural noun ")
-   my_object={adjective:adjective,adjective_2:adjective_2}
-   return my_object
-
-
-def read_template():
+def read_template(path):
     try:
-      variable=prompting()
-      print()
-      print(f"I the {variable.adjective} and {variable.adjective_2} {variable.a_first_name}")
+        file = open(path)
     except FileNotFoundError:
-        pass
+        print('File path is invalid')
+        raise FileNotFoundError
+    else:
+        content = file.read()
+        file.close()
+        return content
+        
 
-    finally:
-        pass
+def parse_template(content):
+    parts = re.findall('{(.+?)}',content)
+    
+    for part in parts:
+        content = re.sub(part, "", content)
+    parts = tuple(parts)
+    
+    return  content, parts
+
+def user_input(parts):
+    user_inputs = []
+    for part in parts:
+      item  = input(f'Please type in {part}: ')
+      user_inputs.append(item)
+    return user_inputs
+    
+   
+
+def merge(content,user_inputs):
+
+    for item in user_inputs:
+        result = content.format(*user_inputs)
+        
+        # print(result)
+    return result
 
 
+if __name__ == '__main__':
+    print("its a game which ask you to enter a words then merge them togather with another paragraph")
+    read = read_template('assets/user.txt')
+    parse, words = parse_template(read)
+    inputs  = user_input(words)
+    finished = merge (parse,inputs)
+    
+    print(finished)
+            
 
-def parse_template():
-    pass
-def merge():
-    pass
